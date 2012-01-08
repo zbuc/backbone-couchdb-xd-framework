@@ -1,0 +1,6 @@
+port pmxdr into backbone couchdb pmxdr connector
+
+
+we do this by testing w/ a cross domain couchdb instance
+
+let's point it at bb:5984
