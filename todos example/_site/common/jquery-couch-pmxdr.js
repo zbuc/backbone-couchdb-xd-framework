@@ -911,7 +911,8 @@
                    "/_view/" + name[1] + encodeOptions(options),
             method: type,
             headers: {"Content-Type": "application/json"},
-            data: data
+            data: data,
+            callback: options['success']
           });/*
           ajax({
               type: type,

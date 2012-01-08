@@ -79,6 +79,8 @@
         success: __bind(function(data) {
           var doc, _i, _len, _ref, _temp;
           _temp = [];
+          var j = $.parseJSON(data.data);
+          data.rows = j.rows;
           _ref = data.rows;
           for (_i = 0, _len = _ref.length; _i < _len; _i++) {
             doc = _ref[_i];

@@ -32,7 +32,6 @@
 		else if (instance.iFrame.attachEvent)
 			instance.iFrame.attachEvent("onload", onloadHandler);
 
-        console.log(instance);
 		instance.iFrame.src = instance.origin + "/couchdb-xd/_design/couchdb-xd/receiver.html";
 		if (typeof onload == "function") {
 			instance.onload = onload;
@@ -51,9 +50,8 @@
 			return requests;
 		}
 
-		var pmxdrInstance = new pmxdr(req.uri);
-        pmxdrInstance.beforeSend = req.beforeSend;
-		var callback = req.callback;
+		var pmxdrInstance = new pmxdr(req.uri),
+		callback = req.callback;
 		req.id = pmxdr.getSafeID();
 
 		req.callback = function(response) {
@@ -62,9 +60,6 @@
 		}
 
 		pmxdrInstance.onload = function() {
-            if(typeof this.beforeSend == 'function'){
-                this.beforeSend(req);
-            }
 			this.request(req);
 		}
 
@@ -169,18 +164,18 @@
 	};
 
 	function pmxdrResponseHandler(evt) {
-		var data = JSON.parse(evt.data.data);
-		if (evt.data.pmxdr == true) { // only handle pmxdr requests
+		var data = JSON.parse(evt.data);
+		if (data.pmxdr == true) { // only handle pmxdr requests
 			if (
-				pmxdr.requests[evt.data.id]
-				&& pmxdr.requests[evt.data.id].origin == evt.origin
-				&& typeof pmxdr.requests[evt.data.id].callback == "function"
-				&& !pmxdr.requests.aborted[evt.data.id]
-			) pmxdr.requests[evt.data.id].callback(evt.data);
-			else if (pmxdr.requests.aborted[evt.data.id]) {
-				delete pmxdr.requests.aborted[evt.data.id];
-				if (evt.data.id in pmxdr.requests)
-					delete pmxdr.requests[evt.data.id];
+				pmxdr.requests[data.id]
+				&& pmxdr.requests[data.id].origin == evt.origin
+				&& typeof pmxdr.requests[data.id].callback == "function"
+				&& !pmxdr.requests.aborted[data.id]
+			) pmxdr.requests[data.id].callback(data);
+			else if (pmxdr.requests.aborted[data.id]) {
+				delete pmxdr.requests.aborted[data.id];
+				if (data.id in pmxdr.requests)
+					delete pmxdr.requests[data.id];
 			}
 		}
 	}
