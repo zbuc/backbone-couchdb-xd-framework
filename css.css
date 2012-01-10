@@ -197,9 +197,6 @@ body {
 #todo-list li:hover .todo-destroy {
   display: block;
 }
-#todo-list .todo-destroy:hover {
-  background-position: 0 -20px;
-}
 #todo-stats {
   *zoom: 1;
   margin-top: 10px;

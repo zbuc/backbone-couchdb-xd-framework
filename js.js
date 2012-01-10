@@ -10859,6 +10859,7 @@ if (this.JSON && (!JSON.stringify || !JSON.parse))
     pmxdr.request({
         uri: obj.url,
         longPolling: options.longPolling || false,
+        method: obj.type || "GET",
         callback: function(req) {
             try {
               if(typeof req.data == "string")
@@ -10894,7 +10895,6 @@ if (this.JSON && (!JSON.stringify || !JSON.parse))
             }
         }
       },
-      method: 'GET',
       headers: "Content-Type: application/json"
     });
 
