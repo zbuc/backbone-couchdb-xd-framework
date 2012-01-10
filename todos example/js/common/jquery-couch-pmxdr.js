@@ -1060,6 +1060,7 @@
     pmxdr.request({
         uri: obj.url,
         longPolling: options.longPolling || false,
+        method: obj.type || "GET",
         callback: function(req) {
             try {
               if(typeof req.data == "string")
@@ -1095,7 +1096,6 @@
             }
         }
       },
-      method: 'GET',
       headers: "Content-Type: application/json"
     });
 
