@@ -11,13 +11,28 @@
                 "keypress .todo-input": "updateOnEnter"
             },
             initialize: function() {
-                this.model.bind('change', this.render, this);
-                this.model.bind('destroy', this.remove, this);
+                _.bindAll(this, 'render', 'remove');
+                this.model.bind('change', this.render);
+                this.model.bind('destroy', this.remove);
+                this.model.bind('remove', this.remove);
+                //this.model.collection.bind('add', function(){console.log("aifa")}, this.model);
+                /*this.model.collection.db.changes = function(a,b){
+                console.log(a,b);
+                };*/
+                /*this.model.collection.bind("change", function() {
+                    model.save();
+                });*/
+                //this.model.collection.listenToChanges();
+                //this.model.collection._db_on_change(this.renderAll);
+                //this.model.collection._db_changes_handler.onChange(this.renderAll);
             },
             render: function(){
                 $(this.el).html(this.template(this.model.toJSON()));
                 this.setText();
                 return this;
+            },
+            renderAll: function(){
+                console.log("render");
             },
             setText: function() {
                 var text = this.model.get('text');

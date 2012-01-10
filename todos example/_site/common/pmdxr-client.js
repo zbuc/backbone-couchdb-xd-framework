@@ -50,18 +50,22 @@
 			return requests;
 		}
 
-		var pmxdrInstance = new pmxdr(req.uri),
-		callback = req.callback;
-		req.id = pmxdr.getSafeID();
+        var pmxdrInstance = new pmxdr(req.uri);
+        pmxdrInstance.beforeSend = req.beforeSend;
+        var callback = req.callback;
+        req.id = pmxdr.getSafeID();
 
-		req.callback = function(response) {
-			if (typeof callback == "function") callback.call(this, response);
-			this.unload();
-		}
+        req.callback = function(response) {
+            if (typeof callback == "function") callback.call(this, response);
+            this.unload();
+        }
 
-		pmxdrInstance.onload = function() {
-			this.request(req);
-		}
+        pmxdrInstance.onload = function() {
+            if(typeof this.beforeSend == 'function'){
+                this.beforeSend(req);
+            }
+            this.request(req);
+        }
 
 		pmxdrInstance.init()
 		return {
@@ -143,6 +147,7 @@
 				uri     : req.uri,
 				data    : req.data,
 				headers : req.headers,
+                longPolling: req.longPolling || false,
 				id      : id
 			}), instance.origin);
 			if (timeout) setTimeout(timeoutCallback, timeout)

@@ -194,8 +194,8 @@
       this._db_update_seq = data.update_seq || 0;
       opts = {
         include_docs: true,
-        collection: con.helpers.extract_collection_name(this),
-        filter: "" + con.config.ddoc_name + "/by_collection"
+        collection: con.helpers.extract_collection_name(this)//,
+        //filter: "" + con.config.ddoc_name + "/by_collection"
       };
       _.extend(opts, this.db);
       return _.defer(__bind(function() {
@@ -203,6 +203,12 @@
         return this._db_changes_handler.onChange(this._db_on_change);
       }, this));
     };
+    //this method seems to gather a list of results
+    //to perform on the result of a db cahnge
+    //it puts them in the _results array
+    //so we'll see that we had some element deleted,
+    //some added, some changed, etc.
+    //then can decide accordingly. fuuuuck.
     Collection.prototype._db_on_change = function(changes) {
       var obj, _doc, _i, _len, _ref, _results;
       _ref = changes.results;

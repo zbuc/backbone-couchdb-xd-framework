@@ -16,6 +16,11 @@
             },
             comparator: function(todo) {
                 return todo.get('order');
+            },
+            db: {
+                changes: true,
+                filter : Backbone.couch_connector.config.ddoc_name + "/by_collection",
+                view : "byCollection"
             }
         });
 

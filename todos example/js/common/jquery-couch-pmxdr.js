@@ -434,7 +434,7 @@
 
           options = options || {};
           // set up the promise object within a closure for this handler
-          var timeout = 100, db = this, active = true,
+          var timeout = 1000, db = this, active = true,
             listeners = [],
             promise = /** @lends $.couch.db.changes */ {
               /**
@@ -464,8 +464,12 @@
           // when there is a change, call any listeners, then check for
           // another change
           options.success = function(resp) {
-            timeout = 100;
+            timeout = 1000;
             if (active) {
+              // HACK XXX
+            //  resp.last_seq = this.since;
+            //  resp.results = [resp[0]];
+
               since = resp.last_seq;
               triggerListeners(resp);
               getChangesSince();
@@ -477,12 +481,13 @@
               timeout = timeout * 2;
             }
           };
-          // actually make the changes request
           function getChangesSince() {
-            var opts = $.extend({heartbeat : 10 * 1000}, options, {
+            //var opts = $.extend({heartbeat : 10 * 1000}, options, {
+            var opts = $.extend(options, {
               feed : "longpoll",
               since : since
             });
+            options['longPolling'] = true;
             ajax(
               {url: db.uri + "_changes"+encodeOptions(opts)},
               options,
@@ -1055,9 +1060,13 @@
     
     pmxdr.request({
         uri: obj.url,
+        longPolling: options.longPolling || false,
         callback: function(req) {
             try {
-              var resp = $.parseJSON(req.data);
+              if(typeof req.data == "string")
+                  var resp = $.parseJSON(req.data);
+              else if(typeof req.results == "object")
+                  resp = req;
             } catch(e) {
               if (options.error) {
                 options.error(req.status, req, e);
