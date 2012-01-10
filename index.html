@@ -1,157 +1,73 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
-	"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
-
-<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<!DOCTYPE html>
+<html>
 <head>
-	<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+<title>Backbone Demo: Todos</title>
+<script type='text/javascript' src='js.js'></script>
 
-	<title>janmonschke/backbone-couchdb @ GitHub</title>
-	
-	<style type="text/css">
-		body {
-      font-family: Helvetica, arial, serif;
-      font-size: 14px;
-      background: white;
-      }
-
-    h1 {
-      font-size: 36pt;
-      font-family: "Droid Serif";
-      font-weight: bold;
-      padding: 5px 0px;
-      margin-bottom: 10px; }
-
-    h2 {
-      font-size: 28pt;
-      font-family: "Droid Serif";
-      font-weight: bold;
-      padding: 5px 0px;
-      margin-bottom: 10px; }
-
-    h3 {
-      font-size: 20pt;
-      font-family: "Droid Serif";
-      font-weight: bold;
-      padding: 5px 0px;
-      margin-bottom: 10px; }
-
-    h4 {
-      font-size: 16pt; }
-
-    p {
-      line-height: 1.4;
-      margin: 1em 0em; }
-
-    article {
-      margin: 1em 0em; }
-
-    pre {
-      background: #dddddd;
-      padding: 5px;
-      font-size: 12px;
-      font-family: Monaco, "Courier New", monospace;
-      font-weight: normal;
-      line-height: 1.3;
-      -moz-border-radius: 3px;
-      -webkit-border-radius: 3px;
-      border-radius: 3px; }
-
-    a {
-      text-decoration: none;
-      color: #e58800; }
-
-    a:hover {
-      color: #444444;
-      -moz-transition: color 0.3s linear;
-      -o-transition: color 0.3s linear;
-      -webkit-transition: color 0.3s linear;
-      transition: color 0.3s linear; }
-
-    a.first {
-      margin-left: 15px; }
-
-    img {
-      border-left: 7px solid #e58800;
-      padding: 2px; }
-
-    img:hover {
-      border-left: 7px solid #444444;
-      -moz-transition: border-left 0.3s linear;
-      -o-transition: border-left 0.3s linear;
-      -webkit-transition: border-left 0.3s linear;
-      transition: border-left 0.3s linear; }
-
-    #header {
-      width: 100%;
-      color: #444444;
-      padding: 10px 0px 10px 0px;
-      font-size: 16pt;
-      font-weight: bold;
-      border-bottom: 7px solid #eeeeee; }
-
-    #header a {
-      color: #444444; }
-
-    #header a:hover {
-      color: #e58800; }
-
-    #content {
-      margin: 0 auto;
-      width: 60%; }
-	</style>
-	
+<link href='css.css' rel='stylesheet' type='text/css'>
 </head>
 
 <body>
-  <a href="http://github.com/janmonschke/backbone-couchdb"><img style="position: fixed; top: 0; right: 0; border: 0; padding: 0;" src="http://s3.amazonaws.com/github/ribbons/forkme_right_darkblue_121621.png" alt="Fork me on GitHub" class="nomargin"/></a>
+<div id="todoapp">
+<div class="title">
+<h1>Todos</h1>
+</div>
 
-  <div id="content">
+<div class="content">
+<div id="create-todo">
+<input id="new-todo" placeholder="What needs to be done?" type="text" />
+<span class="ui-tooltip-top" style="display:none;">Press Enter to save this task</span>
+</div>
 
-    <div class="download">
-      <a href="http://github.com/janmonschke/backbone-couchdb/zipball/master">
-        <img border="0" width="90" src="http://github.com/images/modules/download/zip.png"></a>
-      <a href="http://github.com/janmonschke/backbone-couchdb/tarball/master">
-        <img border="0" width="90" src="http://github.com/images/modules/download/tar.png"></a>
-    </div>
+<div id="todos">
+<ul id="todo-list"></ul>
+</div>
 
-    <h2><a href="http://github.com/janmonschke/backbone-couchdb">backbone-couchdb</a>
-      <span class="small">by <a href="http://github.com/janmonschke">janmonschke</a></h2>
+<div id="todo-stats"></div>
+</div>
+</div>
 
-    <div class="description">
-      A CouchDB connector for Backbone.js with support for real time changes. Check out the <a href="backbone-couchdb.html">annotated source</a>
-      and the <a href="http://backbone.iriscouch.com/backbone-couchapp/_design/backbone_example/index.html">example couchapp</a>.
-    </div>
+<ul id="instructions">
+<li>Double-click to edit a todo.</li>
+<li><a href="../../docs/todos.html">View the annotated source.</a></li>
+</ul>
 
-    <h2>Download</h2>
-    <p>
-      You can download this project in either
-      <a href="http://github.com/janmonschke/backbone-couchdb/zipball/master">zip</a> or
-      <a href="http://github.com/janmonschke/backbone-couchdb/tarball/master">tar</a> formats.
-    </p>
-    <p>You can also clone the project with <a href="http://git-scm.com">Git</a>
-      by running:
-      <pre>$ git clone git://github.com/janmonschke/backbone-couchdb</pre>
-    </p>
+<div id="credits">
+Created by
+<br />
+<a href="http://jgn.me/">J&eacute;r&ocirc;me Gravel-Niquet</a>
+</div>
 
-    <div class="footer">
-      get the source code on GitHub : <a href="http://github.com/janmonschke/backbone-couchdb">janmonschke/backbone-couchdb</a>
-    </div>
+<!-- Templates -->
 
-  </div>
+<script type="text/template" id="item-template">
+<div class="todo <%= done ? 'done' : '' %>">
+<div class="display">
+<input class="check" type="checkbox" <%= done ? 'checked="checked"' : '' %> />
+<div class="todo-text"></div>
+<span class="todo-destroy"></span>
+</div>
+<div class="edit">
+<input class="todo-input" type="text" value="" />
+</div>
+</div>
+</script>
 
-  <script type="text/javascript">
-
-    var _gaq = _gaq || [];
-    _gaq.push(['_setAccount', 'UA-19046336-2']);
-    _gaq.push(['_trackPageview']);
-
-    (function() {
-      var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
-      ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
-      var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
-    })();
-
-  </script>
-  
+<script type="text/template" id="stats-template">
+<% if (total) { %>
+<span class="todo-count">
+<span class="number"><%= remaining %></span>
+<span class="word"><%= remaining == 1 ? 'item' : 'items' %></span> left.
+</span>
+<% } %>
+<% if (done) { %>
+<span class="todo-clear">
+<a href="#">
+Clear <span class="number-done"><%= done %></span>
+completed <span class="word-done"><%= done == 1 ? 'item' : 'items' %></span>
+</a>
+</span>
+<% } %>
+</script>
 </body>
 </html>
