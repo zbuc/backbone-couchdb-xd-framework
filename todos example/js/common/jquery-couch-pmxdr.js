@@ -898,7 +898,6 @@
          * @param {String} name View to run list against
          */
         view: function(name, options) {
-          console.log("here you are:");
           var name = name.split('/');
           var options = options || {};
           var type = "GET";
