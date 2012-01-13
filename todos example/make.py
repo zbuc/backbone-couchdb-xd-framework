@@ -68,6 +68,7 @@ class ProjectBuilder:
 
     def include_js_file(self, fn):
         if self.debug:
+            self._index_fh.write("<script type='text/javascript' src='js/" + fn + ".js'></script>")
             self.copy_file("./js/" + fn + ".js")
 
         if self.release:
@@ -77,7 +78,7 @@ class ProjectBuilder:
         self.concat_less_file(fn)
 
     def include_line(self, l):
-        pass
+        self._index_fh.write(l)
 
     def include_css_tag(self):
         self._index_fh.write(CSS_TAG)
