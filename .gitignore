@@ -1,3 +1,6 @@
+#project specific
+_site/*
+
 #python specific
 *.pyc
 
