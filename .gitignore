@@ -1,5 +1,5 @@
 #project specific
-_site/*
+*/_site/*
 
 #python specific
 *.pyc
